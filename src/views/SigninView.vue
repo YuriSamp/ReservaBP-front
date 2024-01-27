@@ -16,7 +16,7 @@ import { RouterLink } from 'vue-router'
       <button class="w-full bg-[#379968] text-white h-10 rounded-md">Sign in</button>
       <p>
         Don't have an account?
-        <RouterLink to="/signin">Sign up now</RouterLink>
+        <RouterLink to="/signup">Sign up now</RouterLink>
       </p>
     </div>
   </div>
