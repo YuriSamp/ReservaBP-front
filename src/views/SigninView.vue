@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { Form, Field } from 'vee-validate'
+import axios from 'axios'
 
-const onSubmit = (values: any) => {
-  console.log(values)
+const onSubmit = async (values: any) => {
+  const { data } = await axios.post('http://localhost:8000/signin', { values })
+  console.log(data)
 }
 </script>
 
