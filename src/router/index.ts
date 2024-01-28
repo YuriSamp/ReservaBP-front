@@ -1,5 +1,3 @@
-
-
 import { createRouter, createWebHistory } from 'vue-router'
 import SignIn from '../views/SigninView.vue'
 

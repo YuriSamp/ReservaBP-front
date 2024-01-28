@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// TODO usar o accordeon
+
 const persons = [
   {
     id: 1,
@@ -46,7 +48,7 @@ const persons = [
         <ul class="flex flex-col gap-4">
           <li v-for="person in persons" :key="person.name">
             <div
-              class="rounded-3xl w-full border border-gray-500 flex gap-4 p-3 shadow-md shadow-green-400 cursor-pointer"
+              class="rounded-3xl w-full border border-green-400 flex gap-4 p-3 shadow-md shadow-green-400 cursor-pointer"
             >
               <div class="rounded-full">
                 <img :src="person.profilePicture" class="w-20 h-20" />
