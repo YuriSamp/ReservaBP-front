@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 import axios from 'axios'
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { useToast } from '@/components/ui/toast'
 import { Button } from '@/components/ui/button'
+import type { VueCookies } from 'vue-cookies'
 
 const email = ref(null)
 const password = ref(null)
 const confirmPassword = ref(null)
-
+const router = useRouter()
 const { toast } = useToast()
+const $cookies = inject<VueCookies>('$cookies')
 
 const onSubmit = async (e: Event) => {
   e.preventDefault()
@@ -19,7 +21,9 @@ const onSubmit = async (e: Event) => {
       password: password.value,
       confirmPassword: confirmPassword.value
     }
-    await axios.post('http://localhost:8000/signin', { ...values })
+    const { data: jwtToken } = await axios.post('http://localhost:8000/signin', { ...values })
+    $cookies?.set('JWT_TOKEN', jwtToken, '1h')
+    router.push('/dashboard')
   } catch (error) {
     toast({
       title: 'Scheduled: Catch up',
