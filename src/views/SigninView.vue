@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
-import axios, { AxiosError } from 'axios'
 import { inject, ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/toast'
 import type { VueCookies } from 'vue-cookies'
+import { http, HttpError } from '@/lib/request'
 
 const email = ref(null)
 const password = ref(null)
@@ -21,11 +21,11 @@ const onSubmit = async (e: Event) => {
       password: password.value
     }
 
-    const { data: jwtToken } = await axios.post('http://localhost:8000/signin', { ...values })
+    const { data: jwtToken } = await http.post('/signin', { ...values })
     $cookies?.set('JWT_TOKEN', jwtToken, '1h')
     router.push('/dashboard')
   } catch (error) {
-    if (error instanceof AxiosError) {
+    if (error instanceof HttpError) {
       toast({
         variant: 'destructive',
         title: 'Something went wrong',
