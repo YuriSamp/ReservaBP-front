@@ -19,6 +19,8 @@ const exitFunction = () => {
 
   if (cookieWasRemoved) router.push('/')
 }
+
+const profileLink = () => router.push('/profile')
 </script>
 
 <template>
@@ -33,7 +35,7 @@ const exitFunction = () => {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem class="flex gap-2 cursor-pointer" @click="exitFunction">
+          <DropdownMenuItem class="flex gap-2 cursor-pointer" @click="profileLink">
             <User :size="16" />
             <span>Profile</span>
           </DropdownMenuItem>
