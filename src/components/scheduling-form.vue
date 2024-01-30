@@ -21,8 +21,8 @@ const { persons } = defineProps<{
 const $cookies = inject<VueCookies>('$cookies')
 const consultor = ref('')
 const date = ref<Date>(new Date())
-const startTime = ref<string | undefined>()
-const endTime = ref<string | undefined>()
+const startTime = ref<string>()
+const endTime = ref<string>()
 
 const onSubmit = async (e: Event) => {
   e.preventDefault()

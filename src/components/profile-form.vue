@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -13,14 +13,24 @@ import { Input } from '@/components/ui/input'
 import { http } from '@/lib/request'
 import type { VueCookies } from 'vue-cookies'
 
+type User = {
+  email: string
+  name: string
+  profilePicture: string
+  role: 'Consultor' | 'Cliente'
+}
+
 const $cookies = inject<VueCookies>('$cookies')
-
-const name = ref<string | undefined>()
-const role = ref<string | undefined>()
-const email = ref<string | undefined>()
-const profilePicture = ref<string | undefined>()
-
+const name = ref<string>()
+const role = ref<string>()
+const email = ref<string>()
+const profilePicture = ref<string>()
+const user = ref<User>()
 const roles = ['Consultor', 'Cliente']
+
+// onMounted(async () => {
+
+// })
 
 const onSubmit = async (e: Event) => {
   e.preventDefault()

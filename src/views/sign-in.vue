@@ -7,8 +7,8 @@ import type { VueCookies } from 'vue-cookies'
 import { http, HttpError } from '@/lib/request'
 import { Input } from '@/components/ui/input'
 
-const email = ref<string | undefined>('')
-const password = ref<string | undefined>('')
+const email = ref<string>('')
+const password = ref<string>('')
 const router = useRouter()
 const { toast } = useToast()
 const $cookies = inject<VueCookies>('$cookies')

@@ -15,10 +15,10 @@ import {
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 
-const email = ref<string | undefined>()
-const password = ref<string | undefined>()
-const confirmPassword = ref<string | undefined>()
-const role = ref<string | undefined>()
+const email = ref<string>()
+const password = ref<string>()
+const confirmPassword = ref<string>()
+const role = ref<string>()
 const router = useRouter()
 const { toast } = useToast()
 const $cookies = inject<VueCookies>('$cookies')
