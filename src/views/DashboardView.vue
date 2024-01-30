@@ -2,6 +2,18 @@
 import { onMounted, inject, ref } from 'vue'
 import type { VueCookies } from 'vue-cookies'
 import { http } from '@/lib/request'
+import { Button } from '@/components/ui/button'
+import Navbar from '@/components/navbar.vue'
+import DatePicker from '@/components/date-picker.vue'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
 
 type user = {
   id: number
@@ -11,7 +23,7 @@ type user = {
 }
 
 const $cookies = inject<VueCookies>('$cookies')
-const persons = ref<user[] | null>(null)
+const persons = ref<string[] | null>(null)
 
 onMounted(async () => {
   try {
@@ -21,13 +33,12 @@ onMounted(async () => {
       return
     }
 
-    const { data } = await http.get('/users', {
+    const { data } = await http.get<user[]>('/users', {
       headers: {
         Authorization: `Bearer ${jwt}`
       }
     })
-    persons.value = data
-    console.log(data)
+    persons.value = data.map((person) => person.name)
   } catch (error) {
     console.log(error)
   }
@@ -35,29 +46,41 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="flex flex-col items-center pt-28">
-    <div>
-      <h1 class="pb-12 text-3xl text-center">Consultores disponiveis para agendamento</h1>
-      <div class="w-[1000px]">
-        <input class="rounded-3xl border border-gray-600 py-2 px-3 w-full" />
-      </div>
-      <section class="pt-12">
-        <ul class="flex flex-col gap-4">
-          <li v-for="person in persons" :key="person.id">
-            <div
-              class="rounded-3xl w-full border border-green-400 flex gap-4 p-3 shadow-md shadow-green-400 cursor-pointer"
-            >
-              <div class="rounded-full">
-                <img :src="person.profilePicture" class="w-20 h-20" />
-              </div>
-              <div class="flex flex-col justify-center gap-2">
-                <span class="text-3xl">{{ person.name }}</span>
-                <span>location : {{ person.location }}</span>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </section>
-    </div>
+  <main class="flex flex-col items-center bg-[#f9f5f2] min-h-screen">
+    <Navbar />
+
+    <section>
+      <h1 class="pb-12 text-3xl text-center">Scheduling your appointment</h1>
+    </section>
+    <section class="flex items-center justify-center h-full">
+      <form class="flex flex-col items-center justify-center p-20 gap-3">
+        <div class="flex flex-col gap-1">
+          <label>Consultor</label>
+          <Select>
+            <SelectTrigger class="w-[280px]">
+              <SelectValue placeholder="Selecione um consultor" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup v-for="person in persons" :key="person">
+                <SelectItem :value="person" class="cursor-pointer"> {{ person }} </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Data</label>
+          <DatePicker />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Hora Início</label>
+          <Input class="w-[280px]" type="numeric" placeholder=" -- : --" />
+        </div>
+        <div class="flex flex-col gap-1 mb-8">
+          <label>Hora Fim</label>
+          <Input class="w-[280px]" maxlength="4" type="numeric" placeholder=" -- : --" />
+        </div>
+        <Button class="w-64">Agendar</Button>
+      </form>
+    </section>
   </main>
 </template>
