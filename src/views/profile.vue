@@ -3,7 +3,6 @@ import { onMounted, inject, ref } from 'vue'
 import type { VueCookies } from 'vue-cookies'
 import { http } from '@/lib/request'
 import Navbar from '@/components/navbar.vue'
-import schedulingForm from '@/components/scheduling-form.vue'
 import profileForm from '@/components/profile-form.vue'
 
 type user = {
@@ -37,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="flex flex-col items-center bg-[#f9f5f2] min-h-screen">
+  <main class="flex flex-col items-center min-h-screen">
     <Navbar />
     <section>
       <h1 class="pb-12 text-3xl text-center">Change your profile</h1>

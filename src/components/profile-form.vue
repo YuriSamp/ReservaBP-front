@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 import { Button } from '@/components/ui/button'
-import DatePicker from '@/components/date-picker.vue'
 import {
   Select,
   SelectContent,
@@ -19,6 +18,7 @@ const $cookies = inject<VueCookies>('$cookies')
 const name = ref<string | undefined>()
 const role = ref<string | undefined>()
 const email = ref<string | undefined>()
+const profilePicture = ref<string | undefined>()
 
 const roles = ['Consultor', 'Cliente']
 
@@ -52,7 +52,7 @@ const onSubmit = async (e: Event) => {
 <template>
   <form class="flex flex-col items-center justify-center p-20 gap-3" @submit="onSubmit">
     <div class="flex flex-col gap-1">
-      <label>Consultor</label>
+      <label>Role</label>
       <Select v-model="role">
         <SelectTrigger class="w-[280px]">
           <SelectValue placeholder="Selecione seu papel" />
@@ -68,10 +68,14 @@ const onSubmit = async (e: Event) => {
       <label>Email</label>
       <Input class="w-[280px]" type="numeric" v-model="email" />
     </div>
-    <div class="flex flex-col gap-1 mb-8">
-      <label>Nome</label>
+    <div class="flex flex-col gap-1">
+      <label>Name</label>
       <Input class="w-[280px]" type="numeric" v-model="name" />
     </div>
-    <Button class="w-64">Agendar</Button>
+    <div class="flex flex-col gap-1 mb-8">
+      <label>Profile picture</label>
+      <Input class="w-[280px]" type="numeric" v-model="profilePicture" />
+    </div>
+    <Button class="w-[280px]">Agendar</Button>
   </form>
 </template>

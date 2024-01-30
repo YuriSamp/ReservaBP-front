@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/toast'
 import type { VueCookies } from 'vue-cookies'
 import { http, HttpError } from '@/lib/request'
+import { Input } from '@/components/ui/input'
 
-const email = ref(null)
-const password = ref(null)
+const email = ref<string | undefined>('')
+const password = ref<string | undefined>('')
 const router = useRouter()
 const { toast } = useToast()
 const $cookies = inject<VueCookies>('$cookies')
@@ -43,7 +44,7 @@ const onSubmit = async (e: Event) => {
         <h2 class="flex justify-center text-3xl">Welcome back</h2>
         <div class="flex flex-col gap-2">
           <label>Email</label>
-          <input
+          <Input
             name="email"
             v-model="email"
             required
@@ -53,7 +54,7 @@ const onSubmit = async (e: Event) => {
         </div>
         <div class="flex flex-col gap-2">
           <label>Password</label>
-          <input
+          <Input
             name="password"
             type="password"
             v-model="password"

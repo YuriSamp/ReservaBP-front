@@ -5,13 +5,25 @@ import { useToast } from '@/components/ui/toast'
 import { Button } from '@/components/ui/button'
 import type { VueCookies } from 'vue-cookies'
 import { http, HttpError } from '@/lib/request'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
 
-const email = ref(null)
-const password = ref(null)
-const confirmPassword = ref(null)
+const email = ref<string | undefined>()
+const password = ref<string | undefined>()
+const confirmPassword = ref<string | undefined>()
+const role = ref<string | undefined>()
 const router = useRouter()
 const { toast } = useToast()
 const $cookies = inject<VueCookies>('$cookies')
+
+const roles = ['Consultor', 'Cliente']
 
 const onSubmit = async (e: Event) => {
   e.preventDefault()
@@ -41,9 +53,22 @@ const onSubmit = async (e: Event) => {
     <div class="h-full flex items-center justify-center w-80">
       <form class="flex flex-col gap-4 w-full" @submit="onSubmit">
         <h2 class="flex justify-center text-3xl">Create an account</h2>
+        <div class="flex flex-col gap-1">
+          <label>Role</label>
+          <Select v-model="role">
+            <SelectTrigger class="w-full bg-transparent rounded-md border border-gray-600">
+              <SelectValue placeholder="Selecione seu papel" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup v-for="role in roles" :key="role">
+                <SelectItem :value="role" class="cursor-pointer"> {{ role }} </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
         <div class="flex flex-col gap-2">
           <label>Email *</label>
-          <input
+          <Input
             name="email"
             v-model="email"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
@@ -52,7 +77,7 @@ const onSubmit = async (e: Event) => {
         </div>
         <div class="flex flex-col gap-2">
           <label>Nome *</label>
-          <input
+          <Input
             name="email"
             v-model="email"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
@@ -61,7 +86,7 @@ const onSubmit = async (e: Event) => {
         </div>
         <div class="flex flex-col gap-2">
           <label>Profile picture</label>
-          <input
+          <Input
             name="email"
             v-model="email"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
@@ -70,7 +95,7 @@ const onSubmit = async (e: Event) => {
         </div>
         <div class="flex flex-col gap-2">
           <label>Password *</label>
-          <input
+          <Input
             name="password"
             type="password"
             v-model="password"
@@ -80,7 +105,7 @@ const onSubmit = async (e: Event) => {
         </div>
         <div class="flex flex-col gap-2">
           <label>Confirm the password *</label>
-          <input
+          <Input
             name="confirmPassword"
             type="password"
             v-model="confirmPassword"
