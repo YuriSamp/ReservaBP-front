@@ -14,6 +14,6 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install  --frozen-lockfil
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 3000
 
 CMD ["pnpm", "dev"]
