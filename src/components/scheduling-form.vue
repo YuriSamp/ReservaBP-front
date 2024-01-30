@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { inject, ref } from 'vue'
 import { Button } from '@/components/ui/button'
 import DatePicker from '@/components/date-picker.vue'
 import {
@@ -11,31 +11,48 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
+import { http } from '@/lib/request'
+import type { VueCookies } from 'vue-cookies'
 
 const { persons } = defineProps<{
   persons: string[]
 }>()
 
+const $cookies = inject<VueCookies>('$cookies')
 const consultor = ref('')
 const date = ref<Date>(new Date())
 const startTime = ref<string | undefined>()
 const endTime = ref<string | undefined>()
 
-const onSubmit = (e: Event) => {
+const onSubmit = async (e: Event) => {
   e.preventDefault()
 
   const dateFormat = (date: Date) => {
     return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
   }
 
-  const obj = {
+  const payload = {
     consultor: consultor.value,
     date: dateFormat(date.value),
     startTime: startTime.value,
     endTime: endTime.value
   }
 
-  console.log(obj)
+  const jwt = $cookies?.get('JWT_TOKEN')
+
+  const response = await http.post(
+    '/scheduling',
+    {
+      data: payload
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    }
+  )
+
+  console.log(response)
 }
 </script>
 

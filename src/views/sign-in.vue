@@ -23,7 +23,7 @@ const onSubmit = async (e: Event) => {
 
     const { data: jwtToken } = await http.post('/signin', { ...values })
     $cookies?.set('JWT_TOKEN', jwtToken, '1h')
-    router.push('/dashboard')
+    router.push('/scheduling')
   } catch (error) {
     if (error instanceof HttpError) {
       toast({

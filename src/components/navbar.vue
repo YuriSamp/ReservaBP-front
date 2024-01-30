@@ -9,7 +9,7 @@ import {
 import { inject } from 'vue'
 import type { VueCookies } from 'vue-cookies'
 import { useRouter } from 'vue-router'
-import { LogOut } from 'lucide-vue-next'
+import { LogOut, User } from 'lucide-vue-next'
 
 const router = useRouter()
 const $cookies = inject<VueCookies>('$cookies')
@@ -33,6 +33,10 @@ const exitFunction = () => {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
+          <DropdownMenuItem class="flex gap-2 cursor-pointer" @click="exitFunction">
+            <User :size="16" />
+            <span>Profile</span>
+          </DropdownMenuItem>
           <DropdownMenuItem class="flex gap-2 cursor-pointer" @click="exitFunction">
             <LogOut :size="16" />
             <span>Exit</span>
