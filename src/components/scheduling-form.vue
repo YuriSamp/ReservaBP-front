@@ -1,0 +1,83 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Button } from '@/components/ui/button'
+import DatePicker from '@/components/date-picker.vue'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+
+const { persons } = defineProps<{
+  persons: string[]
+}>()
+
+const consultor = ref('')
+const date = ref<Date>(new Date())
+const startTime = ref<string | undefined>()
+const endTime = ref<string | undefined>()
+
+const onSubmit = (e: Event) => {
+  e.preventDefault()
+
+  const dateFormat = (date: Date) => {
+    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+  }
+
+  const obj = {
+    consultor: consultor.value,
+    date: dateFormat(date.value),
+    startTime: startTime.value,
+    endTime: endTime.value
+  }
+
+  console.log(obj)
+}
+</script>
+
+<template>
+  <form class="flex flex-col items-center justify-center p-20 gap-3" @submit="onSubmit">
+    <div class="flex flex-col gap-1">
+      <label>Consultor</label>
+      <Select v-model="consultor">
+        <SelectTrigger class="w-[280px]">
+          <SelectValue placeholder="Selecione um consultor" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup v-for="person in persons" :key="person">
+            <SelectItem :value="person" class="cursor-pointer"> {{ person }} </SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+    <div class="flex flex-col gap-1">
+      <label>Data</label>
+      <DatePicker v-model="date" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label>Hora Início</label>
+      <Input
+        class="w-[280px]"
+        type="numeric"
+        maxlength="4"
+        placeholder=" -- : --"
+        v-model="startTime"
+      />
+    </div>
+    <div class="flex flex-col gap-1 mb-8">
+      <label>Hora Fim</label>
+      <Input
+        class="w-[280px]"
+        maxlength="4"
+        type="numeric"
+        placeholder=" -- : --"
+        v-model="endTime"
+      />
+    </div>
+    <Button class="w-64">Agendar</Button>
+  </form>
+</template>

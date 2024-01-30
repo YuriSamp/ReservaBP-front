@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-const date = ref<Date>()
+const date = ref(new Date())
 </script>
 
 <template>
