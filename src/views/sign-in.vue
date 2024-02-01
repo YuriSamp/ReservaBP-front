@@ -27,10 +27,10 @@ const onSubmit = async (e: Event) => {
     router.push('/scheduling')
   } catch (error) {
     if (error instanceof HttpError) {
+      console.log(error)
       toast({
         variant: 'destructive',
-        title: 'Something went wrong',
-        description: error.response?.data.mensage
+        title: error.response?.data
       })
     }
   }

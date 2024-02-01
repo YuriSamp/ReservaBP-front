@@ -8,27 +8,50 @@ import schedulingForm from '@/components/scheduling-form.vue'
 type user = {
   id: number
   name: string
-  location: string
+  email: string
   profilePicture: string
 }
 
 const $cookies = inject<VueCookies>('$cookies')
 const persons = ref<string[]>([])
+const userData = ref<user>()
+
+const fetchAllUsers = async () => {
+  const jwt = $cookies?.get('JWT_TOKEN')
+
+  if (!jwt) {
+    return
+  }
+
+  const { data } = await http.get<user[]>('/users', {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  })
+
+  console.log({ allUsers: data })
+  persons.value = data.map((person) => person.name)
+}
+
+const fetchMyUser = async () => {
+  const jwt = $cookies?.get('JWT_TOKEN')
+
+  if (!jwt) return
+
+  const { data } = await http.get<user>('/user/me', {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  })
+
+  console.log({ myData: data })
+  userData.value = data
+}
 
 onMounted(async () => {
   try {
-    const jwt = $cookies?.get('JWT_TOKEN')
-
-    if (!jwt) {
-      return
-    }
-
-    const { data } = await http.get<user[]>('/users', {
-      headers: {
-        Authorization: `Bearer ${jwt}`
-      }
-    })
-    persons.value = data.map((person) => person.name)
+    await fetchAllUsers()
+    await fetchMyUser()
   } catch (error) {
     console.log(error)
   }

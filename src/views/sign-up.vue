@@ -19,6 +19,8 @@ const email = ref<string>()
 const password = ref<string>()
 const confirmPassword = ref<string>()
 const role = ref<string>()
+const profilePicture = ref<string>()
+const name = ref<string>()
 const router = useRouter()
 const { toast } = useToast()
 const $cookies = inject<VueCookies>('$cookies')
@@ -29,13 +31,17 @@ const onSubmit = async (e: Event) => {
   e.preventDefault()
   try {
     const values = {
+      name: name.value,
+      role: role.value,
       email: email.value,
       password: password.value,
-      confirmPassword: confirmPassword.value
+      confirmPassword: confirmPassword.value,
+      profilePicture: profilePicture.value
     }
-    const { data: jwtToken } = await http.post('/signin', { ...values })
-    $cookies?.set('JWT_TOKEN', jwtToken, '1h')
-    router.push('/dashboard')
+
+    const { data: token } = await http.post('/signup', { ...values })
+    $cookies?.set('JWT_TOKEN', token, '1h')
+    router.push('/scheduling')
   } catch (error) {
     if (error instanceof HttpError) {
       toast({
@@ -79,7 +85,7 @@ const onSubmit = async (e: Event) => {
           <label>Nome *</label>
           <Input
             name="email"
-            v-model="email"
+            v-model="name"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
             placeholder="johndoe@gmail.com"
           />
@@ -88,7 +94,7 @@ const onSubmit = async (e: Event) => {
           <label>Profile picture</label>
           <Input
             name="email"
-            v-model="email"
+            v-model="profilePicture"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
             placeholder="place an url"
           />

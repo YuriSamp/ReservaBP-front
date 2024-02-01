@@ -14,6 +14,10 @@ import { LogOut, User } from 'lucide-vue-next'
 const router = useRouter()
 const $cookies = inject<VueCookies>('$cookies')
 
+const { profilePicture } = defineProps<{
+  profilePicture?: string
+}>()
+
 const exitFunction = () => {
   const cookieWasRemoved = $cookies?.remove('JWT_TOKEN')
 
@@ -30,7 +34,10 @@ const profileLink = () => router.push('/profile')
       <DropdownMenu>
         <DropdownMenuTrigger
           ><Avatar class="cursor-pointer hover:scale-110 duration-200">
-            <AvatarImage src="https://github.com/taleshy1.png" alt="@radix-vue" />
+            <AvatarImage
+              :src="profilePicture || 'https://github.com/taleshy1.png'"
+              alt="@radix-vue"
+            />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
