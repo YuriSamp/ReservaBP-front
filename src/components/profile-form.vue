@@ -37,7 +37,7 @@ const email = ref(user?.email)
 const profilePicture = ref(user?.profilePicture)
 const password = ref<string>()
 const confirmPassword = ref<string>()
-const roles = ['Consultor', 'Cliente']
+const roles = ['Corretor de seguro', 'Cliente']
 
 const jwt = $cookies?.get('JWT_TOKEN')
 
@@ -143,8 +143,8 @@ const onDelete = async () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
           <AlertDialogDescription>
-            Essa ação não pode ser desfeita, você permanentemente deletará o seu usuário do banco de
-            dados.
+            Essa ação não pode ser desfeita, você <strong>permanentemente deletará</strong> o seu
+            usuário do banco de dados.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

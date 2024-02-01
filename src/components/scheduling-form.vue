@@ -19,7 +19,7 @@ const { persons } = defineProps<{
 }>()
 
 const $cookies = inject<VueCookies>('$cookies')
-const consultor = ref('')
+const corretor = ref('')
 const date = ref<Date>(new Date())
 const startTime = ref<string>()
 const endTime = ref<string>()
@@ -32,7 +32,7 @@ const onSubmit = async (e: Event) => {
   }
 
   const payload = {
-    consultor: consultor.value,
+    corretor: corretor.value,
     date: dateFormat(date.value),
     startTime: startTime.value,
     endTime: endTime.value
@@ -59,10 +59,10 @@ const onSubmit = async (e: Event) => {
 <template>
   <form class="flex flex-col items-center justify-center p-20 gap-3" @submit="onSubmit">
     <div class="flex flex-col gap-1">
-      <label>Consultor</label>
-      <Select v-model="consultor">
+      <label>Corretor</label>
+      <Select v-model="corretor">
         <SelectTrigger class="w-[280px]">
-          <SelectValue placeholder="Selecione um consultor" />
+          <SelectValue placeholder="Selecione um corretor" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup v-for="person in persons" :key="person">

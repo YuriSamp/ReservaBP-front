@@ -25,7 +25,7 @@ const router = useRouter()
 const { toast } = useToast()
 const $cookies = inject<VueCookies>('$cookies')
 
-const roles = ['Consultor', 'Cliente']
+const roles = ['Corretor de seguro', 'Cliente']
 
 const onSubmit = async (e: Event) => {
   e.preventDefault()

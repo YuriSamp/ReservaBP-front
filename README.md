@@ -1,68 +1,54 @@
-# .
+# fullstack-challenge Reserva BP
 
-This template should help get you started developing with Vue 3 in Vite.
+## Como rodar o projeto
 
-## Recommended IDE Setup
+1. **Instalar as dependências**:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+`pnpm i`
 
-## Type Support for `.vue` Imports in TS
+2. **Rodar a aplicação localmente**:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+`pnpm dev`
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+3. **rodar a aplicação no container Docker**
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+`docker-compose up`
 
-## Customize configuration
+4. **Testes**
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+Para executa-los: `pnpm test`
+coverage: `pnpm test:coverage`
 
-## Project Setup
+5. **Documentação dos Endpoints**
 
-```sh
-pnpm install
-```
+FALTA FAZER
 
-### Compile and Hot-Reload for Development
+6. **Vídeo**
 
-```sh
-pnpm dev
-```
+FALTA FAZER
 
-### Type-Check, Compile and Minify for Production
+## Requisitos
 
-```sh
-pnpm build
-```
+[✅] Deverá ser criado um CRUD de cadastro de usuários.
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+[✅] Deverá utilizar um banco de dados a sua preferencia;
 
-```sh
-pnpm test:unit
-```
+[ ] Deverá ser criado um sistema de agendamento entre Clientes e Corretores de Seguro
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+[✅] A Aplicação deverá ser Dockerizada
 
-```sh
-pnpm test:e2e:dev
-```
+[✅] Implemente Validação de dados na API
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+[✅] Implemente Hash e Sanitização de dados sensíveis no backend
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+[ ] Documente a API com Swagger
 
-```sh
-pnpm build
-pnpm test:e2e
-```
+[ ] Testes Unitários e/ou E2E
 
-### Lint with [ESLint](https://eslint.org/)
+[✅] Desafio deverá ser feito em Typescript
 
-```sh
-pnpm lint
-```
+[✅] Faça uma Documentação no README da aplicação
+
+[✅] Coloque seu código no Github
+
+## Observações
