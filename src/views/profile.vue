@@ -5,6 +5,7 @@ import { http } from '@/lib/request'
 import { inject, onMounted, ref } from 'vue'
 import type { VueCookies } from 'vue-cookies'
 import type { User } from '@/lib/user'
+import router from '@/router'
 
 const userData = ref<User>()
 const $cookies = inject<VueCookies>('$cookies')
@@ -12,7 +13,7 @@ const $cookies = inject<VueCookies>('$cookies')
 const fetchMyUser = async () => {
   const jwt = $cookies?.get('JWT_TOKEN')
 
-  if (!jwt) return
+  if (!jwt) router.push('/')
 
   const { data } = await http.get<User>('/user/me', {
     headers: {

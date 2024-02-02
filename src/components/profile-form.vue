@@ -53,15 +53,11 @@ const onSubmit = async (e: Event) => {
     profilePicture: profilePicture.value
   }
 
-  const response = await http.put(
-    `/user/${user?.id}`,
-    { ...payload },
-    {
-      headers: {
-        Authorization: `Bearer ${jwt}`
-      }
+  const response = await http.put(`/user/${user?.id}`, payload, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
     }
-  )
+  })
 
   console.log(response)
 }

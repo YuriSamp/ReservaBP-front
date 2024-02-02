@@ -21,7 +21,7 @@ const date = ref(new Date())
         "
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
-        <span>{{ date ? format(date, 'PPP') : 'Pick a date' }}</span>
+        <span>{{ date ? format(date, 'dd-MM-yyyy') : 'Pick a date' }}</span>
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">

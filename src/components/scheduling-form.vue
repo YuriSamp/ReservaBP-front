@@ -10,49 +10,52 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { Input } from '@/components/ui/input'
 import { http } from '@/lib/request'
+import { formatToDate } from '@/lib/date-format'
+import { generateTimeArray } from '@/lib/generate-times'
 import type { VueCookies } from 'vue-cookies'
+import { useToast } from './ui/toast'
 
-const { persons } = defineProps<{
-  persons: string[]
-}>()
+// const { persons } = defineProps<{
+//   persons: string[]
+// }>()
+
+const persons = ['Alice Johnson', 'Bob Smith', 'Charlie Brown', 'Diana Miller', 'Eva Davis']
 
 const $cookies = inject<VueCookies>('$cookies')
 const corretor = ref('')
 const date = ref<Date>(new Date())
 const startTime = ref<string>()
 const endTime = ref<string>()
+const times = generateTimeArray()
+const { toast } = useToast()
 
 const onSubmit = async (e: Event) => {
   e.preventDefault()
 
-  const dateFormat = (date: Date) => {
-    return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+  // O componente do calendario não tem o required
+  if (!date.value) {
+    toast({
+      variant: 'destructive',
+      title: 'Por favor selecione uma data'
+    })
   }
 
   const payload = {
+    cliente: persons[0],
     corretor: corretor.value,
-    date: dateFormat(date.value),
-    startTime: startTime.value,
-    endTime: endTime.value
+    date: date.value,
+    startTime: formatToDate(date.value, startTime.value),
+    endTime: formatToDate(date.value, endTime.value)
   }
 
   const jwt = $cookies?.get('JWT_TOKEN')
 
-  const response = await http.post(
-    '/scheduling',
-    {
-      data: payload
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${jwt}`
-      }
+  const response = await http.post('/scheduling', payload, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
     }
-  )
-
-  console.log(response)
+  })
 }
 </script>
 
@@ -77,23 +80,29 @@ const onSubmit = async (e: Event) => {
     </div>
     <div class="flex flex-col gap-1">
       <label>Hora Início</label>
-      <Input
-        class="w-[280px]"
-        type="numeric"
-        maxlength="4"
-        placeholder=" -- : --"
-        v-model="startTime"
-      />
+      <Select v-model="startTime" required>
+        <SelectTrigger class="w-[280px]">
+          <SelectValue placeholder="Selecione uma horario" />
+        </SelectTrigger>
+        <SelectContent class="max-h-72">
+          <SelectGroup v-for="time in times" :key="time">
+            <SelectItem :value="time" class="cursor-pointer"> {{ time }} </SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
     <div class="flex flex-col gap-1 mb-8">
       <label>Hora Fim</label>
-      <Input
-        class="w-[280px]"
-        maxlength="4"
-        type="numeric"
-        placeholder=" -- : --"
-        v-model="endTime"
-      />
+      <Select v-model="endTime">
+        <SelectTrigger class="w-[280px]">
+          <SelectValue placeholder="Selecione um horario" />
+        </SelectTrigger>
+        <SelectContent class="max-h-72">
+          <SelectGroup v-for="time in times" :key="time">
+            <SelectItem :value="time" class="cursor-pointer"> {{ time }} </SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
     </div>
     <Button class="w-64">Agendar</Button>
   </form>

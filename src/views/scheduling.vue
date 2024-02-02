@@ -4,6 +4,7 @@ import type { VueCookies } from 'vue-cookies'
 import { http } from '@/lib/request'
 import Navbar from '@/components/navbar.vue'
 import schedulingForm from '@/components/scheduling-form.vue'
+import router from '@/router'
 
 type user = {
   id: number
@@ -36,7 +37,7 @@ const fetchAllUsers = async () => {
 const fetchMyUser = async () => {
   const jwt = $cookies?.get('JWT_TOKEN')
 
-  if (!jwt) return
+  // if (!jwt) router.push('/')
 
   const { data } = await http.get<user>('/user/me', {
     headers: {
@@ -60,7 +61,7 @@ onMounted(async () => {
 
 <template>
   <main class="flex flex-col items-center bg-[#f9f5f2] min-h-screen">
-    <Navbar />
+    <Navbar :profile-picture="userData?.profilePicture" />
     <section>
       <h1 class="pb-12 text-3xl text-center">Scheduling your appointment</h1>
     </section>
