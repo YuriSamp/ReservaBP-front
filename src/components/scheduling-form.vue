@@ -10,17 +10,16 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { http } from '@/lib/request'
+import { HttpError, http } from '@/lib/request'
 import { formatToDate } from '@/lib/date-format'
 import { generateTimeArray } from '@/lib/generate-times'
 import type { VueCookies } from 'vue-cookies'
 import { useToast } from './ui/toast'
 
-// const { persons } = defineProps<{
-//   persons: string[]
-// }>()
-
-const persons = ['Alice Johnson', 'Bob Smith', 'Charlie Brown', 'Diana Miller', 'Eva Davis']
+const { persons, client } = defineProps<{
+  persons: { email: string; name: string }[]
+  client: { email: string; name: string }
+}>()
 
 const $cookies = inject<VueCookies>('$cookies')
 const corretor = ref('')
@@ -42,8 +41,8 @@ const onSubmit = async (e: Event) => {
   }
 
   const payload = {
-    cliente: persons[0],
-    corretor: corretor.value,
+    cliente: client?.email,
+    corretor: persons.find((person) => person.name === corretor.value)?.email,
     date: date.value,
     startTime: formatToDate(date.value, startTime.value),
     endTime: formatToDate(date.value, endTime.value)
@@ -51,11 +50,20 @@ const onSubmit = async (e: Event) => {
 
   const jwt = $cookies?.get('JWT_TOKEN')
 
-  const response = await http.post('/scheduling', payload, {
-    headers: {
-      Authorization: `Bearer ${jwt}`
+  try {
+    await http.post('/scheduling', payload, {
+      headers: {
+        Authorization: `Bearer ${jwt}`
+      }
+    })
+  } catch (err) {
+    if (err instanceof HttpError) {
+      toast({
+        variant: 'destructive',
+        description: err.response?.data
+      })
     }
-  })
+  }
 }
 </script>
 
@@ -68,8 +76,8 @@ const onSubmit = async (e: Event) => {
           <SelectValue placeholder="Selecione um corretor" />
         </SelectTrigger>
         <SelectContent>
-          <SelectGroup v-for="person in persons" :key="person">
-            <SelectItem :value="person" class="cursor-pointer"> {{ person }} </SelectItem>
+          <SelectGroup v-for="person in persons" :key="person.email">
+            <SelectItem :value="person.name" class="cursor-pointer"> {{ person.name }} </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

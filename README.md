@@ -14,16 +14,7 @@
 
 `docker-compose up`
 
-4. **Testes**
-
-Para executa-los: `pnpm test`
-coverage: `pnpm test:coverage`
-
-5. **Documentação dos Endpoints**
-
-FALTA FAZER
-
-6. **Vídeo**
+4. **Vídeo**
 
 FALTA FAZER
 
@@ -33,7 +24,7 @@ FALTA FAZER
 
 [✅] Deverá utilizar um banco de dados a sua preferencia;
 
-[ ] Deverá ser criado um sistema de agendamento entre Clientes e Corretores de Seguro
+[✅] Deverá ser criado um sistema de agendamento entre Clientes e Corretores de Seguro
 
 [✅] A Aplicação deverá ser Dockerizada
 
@@ -41,9 +32,9 @@ FALTA FAZER
 
 [✅] Implemente Hash e Sanitização de dados sensíveis no backend
 
-[ ] Documente a API com Swagger
+[✅] Documente a API com Swagger
 
-[ ] Testes Unitários e/ou E2E
+[✅] Testes Unitários e/ou E2E
 
 [✅] Desafio deverá ser feito em Typescript
 

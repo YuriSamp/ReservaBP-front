@@ -28,17 +28,14 @@ const profileLink = () => router.push('/profile')
 </script>
 
 <template>
-  <div class="py-4 mb-14 px-96 flex justify-between w-full items-center">
+  <div class="py-4 mb-7 flex justify-between w-full items-center">
     <span class="text-2xl text-green-600 font-bold">RESERVA BP</span>
     <div>
       <DropdownMenu>
         <DropdownMenuTrigger
           ><Avatar class="cursor-pointer hover:scale-110 duration-200">
-            <AvatarImage
-              :src="profilePicture || 'https://github.com/taleshy1.png'"
-              alt="@radix-vue"
-            />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage :src="profilePicture as string" alt="@radix-vue" />
+            <AvatarFallback>PP</AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent>

@@ -21,10 +21,11 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Input } from '@/components/ui/input'
-import { http } from '@/lib/request'
+import { HttpError, http } from '@/lib/request'
 import type { VueCookies } from 'vue-cookies'
 import type { User } from '@/lib/user'
 import router from '@/router'
+import { useToast } from './ui/toast'
 
 const { user } = defineProps<{
   user?: User
@@ -38,6 +39,7 @@ const profilePicture = ref(user?.profilePicture)
 const password = ref<string>()
 const confirmPassword = ref<string>()
 const roles = ['Corretor de seguro', 'Cliente']
+const { toast } = useToast()
 
 const jwt = $cookies?.get('JWT_TOKEN')
 
@@ -53,27 +55,34 @@ const onSubmit = async (e: Event) => {
     profilePicture: profilePicture.value
   }
 
-  const response = await http.put(`/user/${user?.id}`, payload, {
-    headers: {
-      Authorization: `Bearer ${jwt}`
-    }
-  })
-
-  console.log(response)
-}
-
-const onDelete = async () => {
   try {
-    await http.delete(`/user/${user?.id}`, {
+    const response = await http.put(`/user/${user?.id}`, payload, {
       headers: {
         Authorization: `Bearer ${jwt}`
       }
     })
-    $cookies?.remove('JWT_TOKEN')
-    router.push('/signup')
+
+    toast({
+      description: response.data
+    })
   } catch (err) {
-    console.log(err)
+    if (err instanceof HttpError) {
+      toast({
+        variant: 'destructive',
+        title: err.response?.data
+      })
+    }
   }
+}
+
+const onDelete = async () => {
+  await http.delete(`/user/${user?.id}`, {
+    headers: {
+      Authorization: `Bearer ${jwt}`
+    }
+  })
+  $cookies?.remove('JWT_TOKEN')
+  router.push('/signup')
 }
 </script>
 
@@ -82,10 +91,10 @@ const onDelete = async () => {
     <form class="flex flex-col items-center justify-center pt-20 gap-3" @submit="onSubmit">
       <div class="flex gap-8">
         <div class="flex flex-col gap-1">
-          <label>Role</label>
+          <label>Cargo</label>
           <Select v-model="role">
             <SelectTrigger class="w-[280px]">
-              <SelectValue placeholder="Selecione seu papel" />
+              <SelectValue placeholder="Selecione seu cargo" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup v-for="role in roles" :key="role">
@@ -101,31 +110,31 @@ const onDelete = async () => {
       </div>
       <div class="flex gap-8">
         <div class="flex flex-col gap-1">
-          <label>Name</label>
+          <label>Nome</label>
           <Input class="w-[280px]" v-model="name" />
         </div>
         <div class="flex flex-col gap-1">
-          <label>Profile picture</label>
+          <label>Foto de perfil</label>
           <Input class="w-[280px]" v-model="profilePicture" />
         </div>
       </div>
       <div class="flex gap-8">
         <div class="flex flex-col gap-1">
-          <label>Your new Password </label>
+          <label>Senha </label>
           <Input
             type="password"
             v-model="password"
             class="w-[280px]"
-            placeholder="your coolest password"
+            placeholder="uma senha legal"
           />
         </div>
         <div class="flex flex-col gap-1 mb-8">
-          <label>Confirm the password </label>
+          <label>Confirme a senha</label>
           <Input
             type="password"
             v-model="confirmPassword"
             class="w-[280px]"
-            placeholder="confirm your coolest password"
+            placeholder="outra senha legal"
           />
         </div>
       </div>

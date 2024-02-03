@@ -42,12 +42,11 @@ const onSubmit = async (e: Event) => {
     const { data: token } = await http.post('/signup', { ...values })
     $cookies?.set('JWT_TOKEN', token, '1h')
     router.push('/scheduling')
-  } catch (error) {
-    if (error instanceof HttpError) {
+  } catch (err) {
+    if (err instanceof HttpError) {
       toast({
         variant: 'destructive',
-        title: 'Something went wrong',
-        description: error.response?.data.mensage
+        description: err.response?.data
       })
     }
   }
@@ -58,12 +57,12 @@ const onSubmit = async (e: Event) => {
   <main class="flex h-full justify-center items-center overflow-y-hidden">
     <div class="h-full flex items-center justify-center w-80">
       <form class="flex flex-col gap-4 w-full" @submit="onSubmit">
-        <h2 class="flex justify-center text-3xl">Create an account</h2>
+        <h2 class="flex justify-center text-3xl">Crie uma conta</h2>
         <div class="flex flex-col gap-1">
-          <label>Role</label>
+          <label>Cargo</label>
           <Select v-model="role">
             <SelectTrigger class="w-full bg-transparent rounded-md border border-gray-600">
-              <SelectValue placeholder="Selecione seu papel" />
+              <SelectValue placeholder="Selecione seu cargo" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup v-for="role in roles" :key="role">
@@ -73,56 +72,56 @@ const onSubmit = async (e: Event) => {
           </Select>
         </div>
         <div class="flex flex-col gap-2">
-          <label>Email *</label>
+          <label>Email </label>
           <Input
             name="email"
             v-model="email"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
-            placeholder="Jhon Doe"
+            placeholder="emailteste123@gmail.com"
           />
         </div>
         <div class="flex flex-col gap-2">
-          <label>Nome *</label>
+          <label>Nome </label>
           <Input
-            name="email"
+            name="name"
+            type="text"
             v-model="name"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
-            placeholder="johndoe@gmail.com"
+            placeholder="Yuri "
           />
         </div>
         <div class="flex flex-col gap-2">
-          <label>Profile picture</label>
+          <label>Foto de perfil</label>
           <Input
-            name="email"
             v-model="profilePicture"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
-            placeholder="place an url"
+            placeholder="coloque sua url do github.png"
           />
         </div>
         <div class="flex flex-col gap-2">
-          <label>Password *</label>
+          <label>Senha </label>
           <Input
             name="password"
             type="password"
             v-model="password"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
-            placeholder="your coolest password"
+            placeholder="uma senha legal"
           />
         </div>
         <div class="flex flex-col gap-2">
-          <label>Confirm the password *</label>
+          <label>Confirme a senha </label>
           <Input
             name="confirmPassword"
             type="password"
             v-model="confirmPassword"
             class="bg-transparent rounded-md border border-gray-600 py-1 px-3"
-            placeholder="your coolest password"
+            placeholder="umsa senha legal"
           />
         </div>
-        <Button>Sign up</Button>
+        <Button>Criar conta</Button>
         <p>
-          Have an account?
-          <RouterLink to="/" class="text-[#00bd7e]">Sign in now</RouterLink>
+          Tem uma conta?
+          <RouterLink to="/" class="text-[#00bd7e]">Entrar agora</RouterLink>
         </p>
       </form>
     </div>
