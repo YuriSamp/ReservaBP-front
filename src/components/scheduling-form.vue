@@ -51,10 +51,14 @@ const onSubmit = async (e: Event) => {
   const jwt = $cookies?.get('JWT_TOKEN')
 
   try {
-    await http.post('/scheduling', payload, {
+    const response = await http.post('/scheduling', payload, {
       headers: {
         Authorization: `Bearer ${jwt}`
       }
+    })
+
+    toast({
+      description: response.data
     })
   } catch (err) {
     if (err instanceof HttpError) {
